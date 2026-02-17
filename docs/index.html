@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Primary SEO -->
+    <title>ripgrep-alias — GNU grep -E Compatibility for ripgrep</title>
+    <meta name="description" content="A lightweight wrapper that makes ripgrep handle GNU grep's -E (--extended-regexp) flag correctly. Drop-in install for bash, zsh, and PowerShell.">
+    <meta name="keywords" content="ripgrep, rg, grep, GNU grep, extended regex, ERE, -E flag, command line, CLI, search, wrapper, alias, egrep">
+    <meta name="author" content="Pegasus Heavy Industries">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+    <link rel="canonical" href="https://pegasusheavy.github.io/ripgrep-alias/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pegasusheavy.github.io/ripgrep-alias/">
+    <meta property="og:title" content="ripgrep-alias — GNU grep -E Compatibility for ripgrep">
+    <meta property="og:description" content="A lightweight wrapper that makes ripgrep handle GNU grep's -E flag correctly. Drop-in install for bash, zsh, and PowerShell.">
+    <meta property="og:site_name" content="ripgrep-alias">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="ripgrep-alias — GNU grep -E Compatibility for ripgrep">
+    <meta name="twitter:description" content="A lightweight wrapper that makes ripgrep handle GNU grep's -E flag correctly. Drop-in install for sh and PowerShell.">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "SoftwareApplication",
+                "name": "ripgrep-alias",
+                "applicationCategory": "DeveloperApplication",
+                "operatingSystem": "Linux, macOS, Windows",
+                "description": "A lightweight shell wrapper that makes ripgrep correctly handle GNU grep's -E (--extended-regexp) flag by stripping it from arguments, since ripgrep uses extended regex syntax by default.",
+                "url": "https://pegasusheavy.github.io/ripgrep-alias/",
+                "downloadUrl": "https://github.com/pegasusheavy/ripgrep-alias",
+                "softwareVersion": "1.0.0",
+                "author": {
+                    "@type": "Organization",
+                    "name": "Pegasus Heavy Industries",
+                    "url": "https://github.com/pegasusheavy"
+                },
+                "programmingLanguage": ["Shell", "PowerShell"],
+                "codeRepository": "https://github.com/pegasusheavy/ripgrep-alias",
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD"
+                }
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "What is ripgrep-alias?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "ripgrep-alias is a lightweight shell wrapper that makes ripgrep (rg) correctly handle GNU grep's -E (--extended-regexp) flag. It strips the -E flag from arguments since ripgrep already uses extended regular expression syntax by default."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Why does ripgrep use -E differently from GNU grep?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "In GNU grep, -E enables extended regular expressions (ERE). In ripgrep, -E is short for --encoding, which specifies the input file encoding. This causes confusion when users switch from grep to ripgrep and try to use -E for extended regex."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Does ripgrep-alias affect performance?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "No. ripgrep-alias is an extremely thin wrapper that only processes the argument list before passing it to the real rg binary. The overhead is negligible — a few microseconds of shell processing."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Can I still use ripgrep's encoding flag with ripgrep-alias?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Yes. Use the long form --encoding instead of -E. For example: rg --encoding utf-8 'pattern' file."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Which shells does ripgrep-alias support?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "ripgrep-alias provides a POSIX shell wrapper compatible with bash, zsh, dash, and other sh-compatible shells, plus a PowerShell wrapper compatible with PowerShell 5.1 and later and PowerShell Core 7 and later."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Does ripgrep-alias handle combined flags like -iE?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "The wrapper handles -E and --extended-regexp as standalone arguments. For combined short flags, separate -E from other flags: use -i -E instead of -iE."
+                        }
+                    }
+                ]
+            },
+            {
+                "@type": "HowTo",
+                "name": "How to install ripgrep-alias",
+                "description": "Install ripgrep-alias to make ripgrep handle GNU grep's -E flag correctly.",
+                "totalTime": "PT1M",
+                "step": [
+                    {
+                        "@type": "HowToStep",
+                        "position": 1,
+                        "name": "Run the install command",
+                        "text": "For sh-compatible shells: curl -fsSL https://raw.githubusercontent.com/pegasusheavy/ripgrep-alias/main/install.sh | sh — For PowerShell: irm https://raw.githubusercontent.com/pegasusheavy/ripgrep-alias/main/install.ps1 | iex"
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "position": 2,
+                        "name": "Restart your shell",
+                        "text": "Close and reopen your terminal, or source your profile manually."
+                    },
+                    {
+                        "@type": "HowToStep",
+                        "position": 3,
+                        "name": "Use rg -E as normal",
+                        "text": "Run rg -E 'pattern' just like grep -E 'pattern'. The -E flag is transparently consumed since ripgrep already uses extended regex by default."
+                    }
+                ]
+            }
+        ]
+    }
+    </script>
+
+    <!-- Preconnects -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    rust: {
+                        50:  '#fef3ed',
+                        100: '#fce4d6',
+                        200: '#f8c5a8',
+                        300: '#f39b70',
+                        400: '#ed6c36',
+                        500: '#e94e1b',
+                        600: '#ce3a11',
+                        700: '#a42c0e',
+                        800: '#832513',
+                        900: '#6c2213',
+                        950: '#3b0e07',
+                    },
+                    charcoal: {
+                        50:  '#f6f6f6',
+                        100: '#e7e7e7',
+                        200: '#d1d1d1',
+                        300: '#b0b0b0',
+                        400: '#888888',
+                        500: '#6d6d6d',
+                        600: '#5d5d5d',
+                        700: '#4f4f4f',
+                        800: '#2d2d2d',
+                        900: '#1a1a1a',
+                        950: '#0c0c0c',
+                    },
+                    cream: '#f0ebe3',
+                    amber: '#d4a053',
+                },
+                fontFamily: {
+                    display: ['"Bebas Neue"', 'Impact', 'sans-serif'],
+                    body:    ['"Barlow"', 'sans-serif'],
+                    mono:    ['"JetBrains Mono"', 'monospace'],
+                },
+            },
+        },
+    };
+    </script>
+
+    <style>
+        body { font-family: 'Barlow', sans-serif; }
+
+        /* Grain overlay */
+        .grain { position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: 0.03; }
+
+        /* Hero warm glow */
+        .hero-glow {
+            background: radial-gradient(ellipse at 50% 10%, rgba(233,78,27,0.10) 0%, transparent 60%);
+        }
+
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* Terminal dots */
+        .dot-red    { background: #ff5f57; }
+        .dot-yellow { background: #febc2e; }
+        .dot-green  { background: #28c840; }
+
+        /* FAQ accordion */
+        .faq-answer {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.35s ease;
+        }
+        .faq-item.open .faq-answer { grid-template-rows: 1fr; }
+        .faq-answer > div { overflow: hidden; }
+        .faq-chevron { transition: transform 0.3s ease; }
+        .faq-item.open .faq-chevron { transform: rotate(180deg); }
+
+        /* Install tabs */
+        .tab-btn { border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s; }
+        .tab-btn.active { color: #e94e1b; border-color: #e94e1b; }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        /* Copy button */
+        .copy-btn { transition: color 0.2s; }
+
+        /* Selection */
+        ::selection { background: rgba(233,78,27,0.30); color: #f0ebe3; }
+
+        /* Section divider */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(233,78,27,0.25), transparent);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0c0c0c; }
+        ::-webkit-scrollbar-thumb { background: #2d2d2d; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4f4f4f; }
+
+        /* Code inline */
+        code.inline {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85em;
+            background: rgba(233,78,27,0.10);
+            color: #ed6c36;
+            padding: 0.15em 0.45em;
+            border-radius: 4px;
+            border: 1px solid rgba(233,78,27,0.15);
+        }
+    </style>
+</head>
+
+<body class="bg-charcoal-950 text-cream antialiased">
+
+    <!-- Grain texture overlay -->
+    <svg class="grain" width="100%" height="100%">
+        <filter id="grain-filter">
+            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
+        </filter>
+        <rect width="100%" height="100%" filter="url(#grain-filter)"/>
+    </svg>
+
+    <!-- Top accent bar -->
+    <div class="fixed top-0 left-0 right-0 h-[3px] z-[60]" style="background: linear-gradient(90deg, #a42c0e, #e94e1b, #d4a053, #e94e1b, #a42c0e);"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-[3px] left-0 right-0 z-50 bg-charcoal-950/85 backdrop-blur-lg border-b border-charcoal-800/60">
+        <div class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
+            <a href="#" class="font-display text-2xl text-cream tracking-widest hover:text-rust-400 transition-colors">
+                RIPGREP<span class="text-rust-500">-</span>ALIAS
+            </a>
+            <div class="flex items-center gap-5">
+                <a href="#install" class="font-body text-sm text-charcoal-400 hover:text-cream transition-colors hidden sm:block">Install</a>
+                <a href="#faq" class="font-body text-sm text-charcoal-400 hover:text-cream transition-colors hidden sm:block">FAQ</a>
+                <a href="https://github.com/pegasusheavy/ripgrep-alias" target="_blank" rel="noopener noreferrer"
+                   class="text-charcoal-400 hover:text-rust-400 transition-colors" aria-label="View on GitHub">
+                    <i class="fa-brands fa-github text-xl"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============================================ -->
+    <!-- HERO                                         -->
+    <!-- ============================================ -->
+    <section class="relative min-h-[100dvh] flex items-center justify-center pt-20 pb-16 hero-glow">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-2 bg-charcoal-800/60 border border-charcoal-700/50 rounded-full px-4 py-1.5 mb-8 reveal">
+                <i class="fa-solid fa-terminal text-rust-500 text-xs"></i>
+                <span class="font-mono text-xs text-charcoal-300 tracking-wide">POSIX sh &middot; PowerShell</span>
+            </div>
+
+            <!-- Title -->
+            <h1 class="font-display text-6xl sm:text-8xl md:text-9xl text-cream tracking-wider leading-none mb-5 reveal">
+                RIPGREP<span class="text-rust-500">-</span>ALIAS
+            </h1>
+
+            <!-- Subtitle -->
+            <p class="font-body text-lg sm:text-xl md:text-2xl text-charcoal-300 mb-14 max-w-2xl mx-auto leading-relaxed reveal">
+                Make ripgrep's <code class="inline">-E</code> flag work like GNU grep's.
+                <br class="hidden sm:block">
+                Drop-in. Zero overhead. Done.
+            </p>
+
+            <!-- Terminal demo -->
+            <div class="max-w-2xl mx-auto text-left mb-14 reveal">
+                <div class="rounded-xl overflow-hidden border border-charcoal-700/50 shadow-2xl shadow-black/40">
+                    <!-- Title bar -->
+                    <div class="flex items-center gap-2 px-4 py-2.5 bg-charcoal-800 border-b border-charcoal-700/50">
+                        <span class="w-3 h-3 rounded-full dot-red"></span>
+                        <span class="w-3 h-3 rounded-full dot-yellow"></span>
+                        <span class="w-3 h-3 rounded-full dot-green"></span>
+                        <span class="ml-3 font-mono text-xs text-charcoal-500">the problem</span>
+                    </div>
+                    <!-- Body -->
+                    <div class="bg-charcoal-900 p-5 font-mono text-sm leading-relaxed overflow-x-auto">
+                        <div class="mb-4">
+                            <span class="text-charcoal-500">&#35; GNU grep — -E means extended regex</span><br>
+                            <span class="text-charcoal-400">$ </span><span class="text-cream">grep -E </span><span class="text-amber">'fn\s+\w+'</span><span class="text-cream"> src/*.rs</span><br>
+                            <span class="text-green-400">src/main.rs:fn main() {</span><br>
+                            <span class="text-green-400">src/lib.rs:fn process(input: &amp;str) {</span>
+                        </div>
+                        <div class="mb-4">
+                            <span class="text-charcoal-500">&#35; ripgrep — -E means encoding!</span><br>
+                            <span class="text-charcoal-400">$ </span><span class="text-cream">rg -E </span><span class="text-amber">'fn\s+\w+'</span><span class="text-cream"> src/*.rs</span><br>
+                            <span class="text-red-400">error: unrecognized encoding: fn\s+\w+</span>
+                        </div>
+                        <div class="border-t border-charcoal-700/50 pt-4">
+                            <span class="text-charcoal-500">&#35; with ripgrep-alias — -E just works</span><br>
+                            <span class="text-charcoal-400">$ </span><span class="text-cream">rg -E </span><span class="text-amber">'fn\s+\w+'</span><span class="text-cream"> src/*.rs</span><br>
+                            <span class="text-green-400">src/main.rs:fn main() {</span><br>
+                            <span class="text-green-400">src/lib.rs:fn process(input: &amp;str) {</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick install CTA -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center reveal">
+                <div class="bg-charcoal-800/80 border border-charcoal-700/50 rounded-lg pl-5 pr-3 py-3 font-mono text-sm flex items-center gap-3">
+                    <span class="text-charcoal-500 select-none">$</span>
+                    <span class="text-cream" id="hero-cmd">curl -fsSL https://raw.githubusercontent.com/pegasusheavy/ripgrep-alias/main/install.sh | sh</span>
+                    <button class="copy-btn text-charcoal-500 hover:text-rust-400 p-1.5 rounded" onclick="copyText('hero-cmd', this)" aria-label="Copy install command">
+                        <i class="fa-regular fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll hint -->
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 text-charcoal-600 animate-bounce">
+            <i class="fa-solid fa-chevron-down text-sm"></i>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============================================ -->
+    <!-- THE PROBLEM                                  -->
+    <!-- ============================================ -->
+    <section class="py-24 sm:py-32">
+        <div class="max-w-5xl mx-auto px-6">
+
+            <div class="text-center mb-16 reveal">
+                <h2 class="font-display text-4xl sm:text-5xl text-cream tracking-wider mb-4">THE FLAG CONFLICT</h2>
+                <p class="font-body text-charcoal-400 text-lg max-w-xl mx-auto">
+                    The same flag means two completely different things.
+                </p>
+            </div>
+
+            <!-- Comparison cards -->
+            <div class="grid md:grid-cols-2 gap-6 mb-14 reveal">
+                <!-- GNU grep card -->
+                <div class="bg-charcoal-900 border border-charcoal-700/40 rounded-xl p-7 relative overflow-hidden group hover:border-green-500/30 transition-colors">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-green-500/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <i class="fa-solid fa-circle-check text-green-500 text-xl"></i>
+                        <h3 class="font-display text-2xl tracking-wider text-cream">GNU GREP</h3>
+                    </div>
+                    <div class="font-mono text-lg text-green-400 mb-3">-E = --extended-regexp</div>
+                    <p class="font-body text-charcoal-400 leading-relaxed">
+                        Enables Extended Regular Expressions. You get
+                        <code class="inline">|</code>, <code class="inline">+</code>, <code class="inline">?</code>
+                        without backslash escaping. Equivalent to <code class="inline">egrep</code>.
+                    </p>
+                </div>
+                <!-- ripgrep card -->
+                <div class="bg-charcoal-900 border border-charcoal-700/40 rounded-xl p-7 relative overflow-hidden group hover:border-red-500/30 transition-colors">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-red-500/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <i class="fa-solid fa-circle-xmark text-red-500 text-xl"></i>
+                        <h3 class="font-display text-2xl tracking-wider text-cream">RIPGREP</h3>
+                    </div>
+                    <div class="font-mono text-lg text-red-400 mb-3">-E = --encoding</div>
+                    <p class="font-body text-charcoal-400 leading-relaxed">
+                        Specifies the text encoding of input files&thinsp;&mdash;&thinsp;<code class="inline">utf-8</code>,
+                        <code class="inline">latin1</code>, etc. Your regex pattern gets interpreted as an encoding name.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Solution callout -->
+            <div class="reveal bg-rust-950/40 border border-rust-800/30 rounded-xl p-7 flex flex-col sm:flex-row items-start sm:items-center gap-5">
+                <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-rust-500/15 flex items-center justify-center">
+                    <i class="fa-solid fa-wand-magic-sparkles text-rust-400 text-lg"></i>
+                </div>
+                <div>
+                    <h3 class="font-body font-bold text-cream text-lg mb-1">The fix is simple</h3>
+                    <p class="font-body text-charcoal-300 leading-relaxed">
+                        ripgrep already uses ERE-equivalent syntax by default, so <code class="inline">-E</code> is redundant.
+                        The wrapper strips it from arguments and forwards everything else to <code class="inline">rg</code> untouched.
+                        Need the real encoding flag? Use <code class="inline">--encoding</code>.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============================================ -->
+    <!-- INSTALLATION                                 -->
+    <!-- ============================================ -->
+    <section id="install" class="py-24 sm:py-32 scroll-mt-20">
+        <div class="max-w-3xl mx-auto px-6">
+
+            <div class="text-center mb-14 reveal">
+                <h2 class="font-display text-4xl sm:text-5xl text-cream tracking-wider mb-4">INSTALL</h2>
+                <p class="font-body text-charcoal-400 text-lg">
+                    One command. Takes about three seconds.
+                </p>
+            </div>
+
+            <div class="reveal">
+                <!-- Tabs -->
+                <div class="flex gap-1 border-b border-charcoal-800 mb-0">
+                    <button class="tab-btn active font-body font-semibold text-sm px-5 py-3 text-charcoal-400" data-tab="shell">
+                        <i class="fa-solid fa-terminal mr-2 text-xs"></i>Shell
+                    </button>
+                    <button class="tab-btn font-body font-semibold text-sm px-5 py-3 text-charcoal-400" data-tab="powershell">
+                        <i class="fa-brands fa-windows mr-2 text-xs"></i>PowerShell
+                    </button>
+                    <button class="tab-btn font-body font-semibold text-sm px-5 py-3 text-charcoal-400" data-tab="manual">
+                        <i class="fa-solid fa-wrench mr-2 text-xs"></i>Manual
+                    </button>
+                </div>
+
+                <!-- Tab panels -->
+                <div class="rounded-b-xl overflow-hidden border border-t-0 border-charcoal-700/50">
+
+                    <!-- Shell -->
+                    <div class="tab-panel active bg-charcoal-900 p-6" data-panel="shell">
+                        <p class="font-body text-charcoal-400 text-sm mb-4">
+                            Works with <strong class="text-charcoal-300">bash</strong>, <strong class="text-charcoal-300">zsh</strong>, <strong class="text-charcoal-300">dash</strong>, and any POSIX-compatible shell.
+                        </p>
+                        <h4 class="font-body font-semibold text-charcoal-300 text-xs uppercase tracking-wider mb-2">with curl</h4>
+                        <div class="bg-charcoal-950 rounded-lg px-5 py-3 font-mono text-sm flex items-center justify-between gap-3 mb-3">
+                            <code class="text-cream overflow-x-auto whitespace-nowrap" id="cmd-curl">curl -fsSL https://raw.githubusercontent.com/pegasusheavy/ripgrep-alias/main/install.sh | sh</code>
+                            <button class="copy-btn flex-shrink-0 text-charcoal-500 hover:text-rust-400 p-1" onclick="copyText('cmd-curl', this)" aria-label="Copy"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                        <h4 class="font-body font-semibold text-charcoal-300 text-xs uppercase tracking-wider mb-2">with wget</h4>
+                        <div class="bg-charcoal-950 rounded-lg px-5 py-3 font-mono text-sm flex items-center justify-between gap-3">
+                            <code class="text-cream overflow-x-auto whitespace-nowrap" id="cmd-wget">wget -qO- https://raw.githubusercontent.com/pegasusheavy/ripgrep-alias/main/install.sh | sh</code>
+                            <button class="copy-btn flex-shrink-0 text-charcoal-500 hover:text-rust-400 p-1" onclick="copyText('cmd-wget', this)" aria-label="Copy"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- PowerShell -->
+                    <div class="tab-panel bg-charcoal-900 p-6" data-panel="powershell">
+                        <p class="font-body text-charcoal-400 text-sm mb-4">
+                            Works with <strong class="text-charcoal-300">PowerShell 5.1+</strong> and <strong class="text-charcoal-300">PowerShell Core 7+</strong>.
+                        </p>
+                        <div class="bg-charcoal-950 rounded-lg px-5 py-3 font-mono text-sm flex items-center justify-between gap-3">
+                            <code class="text-cream overflow-x-auto whitespace-nowrap" id="cmd-ps">irm https://raw.githubusercontent.com/pegasusheavy/ripgrep-alias/main/install.ps1 | iex</code>
+                            <button class="copy-btn flex-shrink-0 text-charcoal-500 hover:text-rust-400 p-1" onclick="copyText('cmd-ps', this)" aria-label="Copy"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Manual -->
+                    <div class="tab-panel bg-charcoal-900 p-6" data-panel="manual">
+                        <p class="font-body text-charcoal-400 text-sm mb-5">
+                            Clone the repo and source the wrapper in your shell profile.
+                        </p>
+                        <div class="space-y-3">
+                            <div class="flex items-start gap-3">
+                                <span class="flex-shrink-0 w-6 h-6 rounded-full bg-rust-500/15 text-rust-400 font-mono text-xs flex items-center justify-center mt-0.5">1</span>
+                                <div class="font-mono text-sm text-charcoal-300">
+                                    git clone https://github.com/pegasusheavy/ripgrep-alias.git ~/.local/share/ripgrep-alias
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="flex-shrink-0 w-6 h-6 rounded-full bg-rust-500/15 text-rust-400 font-mono text-xs flex items-center justify-center mt-0.5">2</span>
+                                <div class="font-body text-sm text-charcoal-300">
+                                    Add to your <code class="inline">~/.bashrc</code> or <code class="inline">~/.zshrc</code>:
+                                    <div class="bg-charcoal-950 rounded-lg px-4 py-2.5 mt-2 font-mono text-sm">
+                                        <span class="text-cream">. "$HOME/.local/share/ripgrep-alias/rg.sh"</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="flex-shrink-0 w-6 h-6 rounded-full bg-rust-500/15 text-rust-400 font-mono text-xs flex items-center justify-center mt-0.5">3</span>
+                                <div class="font-body text-sm text-charcoal-300">Restart your shell.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============================================ -->
+    <!-- FAQ                                          -->
+    <!-- ============================================ -->
+    <section id="faq" class="py-24 sm:py-32 scroll-mt-20">
+        <div class="max-w-3xl mx-auto px-6">
+
+            <div class="text-center mb-14 reveal">
+                <h2 class="font-display text-4xl sm:text-5xl text-cream tracking-wider mb-4">FAQ</h2>
+            </div>
+
+            <div class="space-y-3 reveal" role="list">
+
+                <div class="faq-item bg-charcoal-900 border border-charcoal-700/40 rounded-xl overflow-hidden" role="listitem">
+                    <button class="w-full flex items-center justify-between px-6 py-5 text-left" onclick="toggleFaq(this)" aria-expanded="false">
+                        <span class="font-body font-semibold text-cream pr-4">What is ripgrep-alias?</span>
+                        <i class="fa-solid fa-chevron-down faq-chevron text-charcoal-500 text-sm flex-shrink-0"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="px-6 pb-5 font-body text-charcoal-400 leading-relaxed">
+                            A lightweight shell function that wraps <code class="inline">rg</code> so that
+                            <code class="inline">-E</code> and <code class="inline">--extended-regexp</code>
+                            are silently consumed instead of being misinterpreted as <code class="inline">--encoding</code>.
+                            Everything else passes straight through to the real binary.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item bg-charcoal-900 border border-charcoal-700/40 rounded-xl overflow-hidden" role="listitem">
+                    <button class="w-full flex items-center justify-between px-6 py-5 text-left" onclick="toggleFaq(this)" aria-expanded="false">
+                        <span class="font-body font-semibold text-cream pr-4">Does it slow down ripgrep?</span>
+                        <i class="fa-solid fa-chevron-down faq-chevron text-charcoal-500 text-sm flex-shrink-0"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="px-6 pb-5 font-body text-charcoal-400 leading-relaxed">
+                            No. The wrapper loops through the argument list in a shell function before calling <code class="inline">rg</code>.
+                            The overhead is a few microseconds&thinsp;&mdash;&thinsp;imperceptible compared to any real search.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item bg-charcoal-900 border border-charcoal-700/40 rounded-xl overflow-hidden" role="listitem">
+                    <button class="w-full flex items-center justify-between px-6 py-5 text-left" onclick="toggleFaq(this)" aria-expanded="false">
+                        <span class="font-body font-semibold text-cream pr-4">Can I still use ripgrep's encoding flag?</span>
+                        <i class="fa-solid fa-chevron-down faq-chevron text-charcoal-500 text-sm flex-shrink-0"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="px-6 pb-5 font-body text-charcoal-400 leading-relaxed">
+                            Yes. Use the long form <code class="inline">--encoding</code> instead of <code class="inline">-E</code>.
+                            For example: <code class="inline">rg --encoding utf-8 'pattern'</code>.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item bg-charcoal-900 border border-charcoal-700/40 rounded-xl overflow-hidden" role="listitem">
+                    <button class="w-full flex items-center justify-between px-6 py-5 text-left" onclick="toggleFaq(this)" aria-expanded="false">
+                        <span class="font-body font-semibold text-cream pr-4">Does it handle combined flags like -iE?</span>
+                        <i class="fa-solid fa-chevron-down faq-chevron text-charcoal-500 text-sm flex-shrink-0"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="px-6 pb-5 font-body text-charcoal-400 leading-relaxed">
+                            The wrapper strips <code class="inline">-E</code> and <code class="inline">--extended-regexp</code>
+                            as standalone arguments. For combined short flags, separate them:
+                            use <code class="inline">-i -E</code> instead of <code class="inline">-iE</code>.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item bg-charcoal-900 border border-charcoal-700/40 rounded-xl overflow-hidden" role="listitem">
+                    <button class="w-full flex items-center justify-between px-6 py-5 text-left" onclick="toggleFaq(this)" aria-expanded="false">
+                        <span class="font-body font-semibold text-cream pr-4">Which shells are supported?</span>
+                        <i class="fa-solid fa-chevron-down faq-chevron text-charcoal-500 text-sm flex-shrink-0"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="px-6 pb-5 font-body text-charcoal-400 leading-relaxed">
+                            <strong class="text-charcoal-300">rg.sh</strong> works with any POSIX-compatible shell&thinsp;&mdash;&thinsp;bash, zsh, dash, ash, etc.
+                            <strong class="text-charcoal-300">rg.ps1</strong> works with PowerShell 5.1+ and PowerShell Core 7+.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item bg-charcoal-900 border border-charcoal-700/40 rounded-xl overflow-hidden" role="listitem">
+                    <button class="w-full flex items-center justify-between px-6 py-5 text-left" onclick="toggleFaq(this)" aria-expanded="false">
+                        <span class="font-body font-semibold text-cream pr-4">How do I uninstall?</span>
+                        <i class="fa-solid fa-chevron-down faq-chevron text-charcoal-500 text-sm flex-shrink-0"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="px-6 pb-5 font-body text-charcoal-400 leading-relaxed">
+                            Remove the source line from your shell profile (<code class="inline">~/.bashrc</code>,
+                            <code class="inline">~/.zshrc</code>, or <code class="inline">$PROFILE</code>),
+                            then delete <code class="inline">~/.local/share/ripgrep-alias/</code>.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============================================ -->
+    <!-- FOOTER                                       -->
+    <!-- ============================================ -->
+    <footer class="py-16">
+        <div class="max-w-5xl mx-auto px-6 text-center">
+            <div class="flex justify-center gap-6 mb-6">
+                <a href="https://github.com/pegasusheavy/ripgrep-alias" target="_blank" rel="noopener noreferrer"
+                   class="text-charcoal-500 hover:text-rust-400 transition-colors" aria-label="GitHub repository">
+                    <i class="fa-brands fa-github text-xl"></i>
+                </a>
+                <a href="https://github.com/pegasusheavy/ripgrep-alias/issues" target="_blank" rel="noopener noreferrer"
+                   class="text-charcoal-500 hover:text-rust-400 transition-colors" aria-label="Report an issue">
+                    <i class="fa-solid fa-bug text-xl"></i>
+                </a>
+            </div>
+            <p class="font-body text-sm text-charcoal-600">
+                Built by
+                <a href="https://github.com/pegasusheavy" target="_blank" rel="noopener noreferrer"
+                   class="text-charcoal-400 hover:text-rust-400 transition-colors">Pegasus Heavy Industries</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- ============================================ -->
+    <!-- SCRIPTS                                      -->
+    <!-- ============================================ -->
+    <script>
+    // --- Copy to clipboard ---
+    function copyText(id, btn) {
+        const text = document.getElementById(id).textContent;
+        navigator.clipboard.writeText(text).then(() => {
+            const icon = btn.querySelector('i');
+            icon.className = 'fa-solid fa-check';
+            btn.classList.add('text-green-400');
+            setTimeout(() => {
+                icon.className = 'fa-regular fa-copy';
+                btn.classList.remove('text-green-400');
+            }, 2000);
+        });
+    }
+
+    // --- Tabs ---
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tab = btn.dataset.tab;
+            btn.closest('section').querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.closest('section').querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            btn.closest('section').querySelector(`[data-panel="${tab}"]`).classList.add('active');
+        });
+    });
+
+    // --- FAQ accordion ---
+    function toggleFaq(btn) {
+        const item = btn.closest('.faq-item');
+        const wasOpen = item.classList.contains('open');
+        // Close all
+        document.querySelectorAll('.faq-item').forEach(i => {
+            i.classList.remove('open');
+            i.querySelector('button').setAttribute('aria-expanded', 'false');
+        });
+        // Toggle clicked
+        if (!wasOpen) {
+            item.classList.add('open');
+            btn.setAttribute('aria-expanded', 'true');
+        }
+    }
+
+    // --- Scroll reveal ---
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+                // Stagger sibling reveals
+                const siblings = entry.target.parentElement.querySelectorAll('.reveal');
+                const idx = Array.from(siblings).indexOf(entry.target);
+                setTimeout(() => entry.target.classList.add('visible'), idx * 120);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+
+</body>
+</html>
