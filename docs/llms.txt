@@ -1,0 +1,59 @@
+# ripgrep-alias
+
+> A lightweight wrapper that makes ripgrep handle GNU grep's -E (--extended-regexp) flag correctly.
+
+ripgrep-alias is a drop-in shell wrapper for ripgrep (rg). It solves a common pain point for developers switching from GNU grep to ripgrep: the -E flag means completely different things in each tool.
+
+- In GNU grep, -E enables Extended Regular Expressions (ERE), equivalent to egrep.
+- In ripgrep, -E is short for --encoding, which specifies input file encoding.
+
+Since ripgrep already uses ERE-equivalent regex syntax by default, ripgrep-alias simply strips -E and --extended-regexp from the argument list before forwarding to the real rg binary. The overhead is negligible.
+
+## Install
+
+Shell (bash, zsh, dash, POSIX sh):
+
+```
+curl -fsSL https://raw.githubusercontent.com/pegasusheavy/ripgrep-alias/main/install.sh | sh
+```
+
+PowerShell (5.1+, Core 7+):
+
+```
+irm https://raw.githubusercontent.com/pegasusheavy/ripgrep-alias/main/install.ps1 | iex
+```
+
+The installer downloads the wrapper to ~/.local/share/ripgrep-alias/ and adds a source line to your shell profile.
+
+## How it works
+
+The wrapper defines a shell function named `rg` that:
+1. Iterates through the argument list
+2. Removes -E and --extended-regexp arguments
+3. Passes all remaining arguments to `command rg` (the real ripgrep binary)
+
+If you need ripgrep's native encoding flag, use the long form --encoding instead.
+
+## Links
+
+- Source code: https://github.com/pegasusheavy/ripgrep-alias
+- Website: https://pegasusheavy.github.io/ripgrep-alias/
+- Issues: https://github.com/pegasusheavy/ripgrep-alias/issues
+- Organization: https://github.com/pegasusheavy
+
+## FAQ
+
+Q: Does ripgrep-alias slow down ripgrep?
+A: No. It adds a few microseconds of shell processing before calling rg.
+
+Q: Can I still use ripgrep's encoding flag?
+A: Yes. Use --encoding instead of -E. Example: rg --encoding utf-8 'pattern' file.
+
+Q: Which shells are supported?
+A: rg.sh works with any POSIX-compatible shell (bash, zsh, dash, ash). rg.ps1 works with PowerShell 5.1+ and PowerShell Core 7+.
+
+Q: Does it handle combined flags like -iE?
+A: It handles -E and --extended-regexp as standalone arguments. Use -i -E instead of -iE.
+
+Q: How do I uninstall?
+A: Remove the source line from your shell profile and delete ~/.local/share/ripgrep-alias/.
