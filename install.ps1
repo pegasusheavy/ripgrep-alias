@@ -1,9 +1,9 @@
 # Install ripgrep GNU grep -E compatibility wrapper.
 # Usage:
-#   irm https://raw.githubusercontent.com/PegasusHeavyIndustries/ripgrep-alias/main/install.ps1 | iex
+#   irm https://raw.githubusercontent.com/pegasusheavy/ripgrep-alias/main/install.ps1 | iex
 $ErrorActionPreference = 'Stop'
 
-$Repo     = 'PegasusHeavyIndustries/ripgrep-alias'
+$Repo     = 'pegasusheavy/ripgrep-alias'
 $Branch   = 'main'
 $RawUrl   = "https://raw.githubusercontent.com/$Repo/$Branch/rg.ps1"
 $InstallDir = Join-Path $HOME '.local/share/ripgrep-alias'

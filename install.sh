@@ -1,11 +1,11 @@
 #!/bin/sh
 # Install ripgrep GNU grep -E compatibility wrapper.
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/PegasusHeavyIndustries/ripgrep-alias/main/install.sh | sh
-#   wget -qO- https://raw.githubusercontent.com/PegasusHeavyIndustries/ripgrep-alias/main/install.sh | sh
+#   curl -fsSL https://raw.githubusercontent.com/pegasusheavy/ripgrep-alias/main/install.sh | sh
+#   wget -qO- https://raw.githubusercontent.com/pegasusheavy/ripgrep-alias/main/install.sh | sh
 set -e
 
-REPO="PegasusHeavyIndustries/ripgrep-alias"
+REPO="pegasusheavy/ripgrep-alias"
 BRANCH="main"
 RAW_URL="https://raw.githubusercontent.com/${REPO}/${BRANCH}"
 INSTALL_DIR="${HOME}/.local/share/ripgrep-alias"
